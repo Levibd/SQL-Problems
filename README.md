@@ -2,20 +2,39 @@
 
 > Repositório destinado à resolução de desafios de banco de dados (PostgreSQL) da plataforma **Beecrowd**, como parte das atividades do programa de aceleração da ZG.
 
-![Status](http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge)
-![Database](http://img.shields.io/static/v1?label=DATABASE&message=POSTGRESQL&color=BLUE&style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Beecrowd](https://img.shields.io/badge/Beecrowd-Solved-green?style=for-the-badge)
 
 ## 🎯 Objetivo
-Demonstrar proficiência em consultas SQL, evoluindo de seleções simples até o uso de recursos avançados como **Window Functions**, **CTEs (Common Table Expressions)** e **Subqueries** complexas para análise de dados e relatórios gerenciais.
+Demonstrar proficiência em consultas SQL, evoluindo de seleções simples até o uso de recursos avançados como **Window Functions**, **CTEs (Common Table Expressions)** e **Subqueries complexas** para análise de dados e relatórios gerenciais.
 
+---
+
+## 🏆 Desafios Destacados
+
+### 1. Divisões com Maiores Médias Salariais (Beecrowd 2989)
+**O Desafio:** Calcular a média salarial (Salário Líquido) de cada divisão e listar apenas a divisão com a maior média dentro de cada departamento, ordenando o resultado.
+**A Solução:**
+* Uso de **CTEs** para isolar o cálculo de vencimentos e descontos.
+* Implementação da lógica `(Soma Vencimentos - Soma Descontos)` para chegar ao salário líquido real.
+* Aplicação de **Window Functions** (`ROW_NUMBER()` ou `MAX() OVER`) para rankear as divisões dentro de seus departamentos (`PARTITION BY`).
+
+### 2. Relatório Detalhado de Pagamentos
+**O Desafio:** Listar todos os empregados exibindo Salário Bruto, Total de Descontos e Salário Líquido, ordenados por departamento, divisão e valor líquido.
+**A Solução:**
+* Resolução do problema de **Produto Cartesiano** (linhas duplicadas): Em vez de fazer JOIN direto entre `empregado`, `vencimento` e `desconto`, utilizei **Subqueries no JOIN** para pré-agregar os valores.
+* Uso extensivo de `COALESCE` para garantir que funcionários sem descontos ou vencimentos apareçam no relatório com valor `0.00` em vez de `NULL`.
+
+---
 
 ## 🧠 O que eu aprendi
-Durante a execução deste desafio, pude consolidar e aprender novas técnicas para resolver problemas reais de banco de dados:
 
-* **Manipulação de Nulos:** Aprendi a usar `COALESCE` para tratar valores nulos em relatórios financeiros, garantindo que médias e somas não quebrem (Problema 2989).
-* **Window Functions:** Conheci o conceito de particionamento e ordenação dentro de janelas (`OVER PARTITION BY`) para criar somas acumuladas (Running Totals) sem precisar de loops externos (Problema 2998).
-* **Otimização de Joins:** Entendi na prática o problema do "Produto Cartesiano" ao tentar somar dados de tabelas diferentes (Vencimentos e Descontos) na mesma query. A solução foi isolar as somas em **CTEs** ou **Subqueries** antes de unir os resultados.
-* **Filtragem de Exclusão:** Diferentes formas de encontrar registros que *não* possuem correspondência em outra tabela (Anti-Joins).
+Durante a execução deste desafio, consolidei técnicas essenciais para resolver problemas de *Reporting* e *Analytics* no banco de dados:
+
+* **Manipulação de Nulos e Precisão:** Domínio do `COALESCE` para blindar cálculos matemáticos e `ROUND` para formatação financeira precisa.
+* **Window Functions:** Aprendi a criar rankings e particionamentos (`OVER PARTITION BY`) para resolver problemas de "Top N" por categoria sem complexidade excessiva.
+* **Otimização de Joins (Anti-Duplicação):** Entendi na prática como evitar a duplicação de dados ao relacionar tabelas de *um-para-muitos* simultâneas (ex: um funcionário tem vários vencimentos E vários descontos). A solução foi isolar as somas em subqueries antes de cruzar com a tabela principal.
+* **Lógica de Negócio no SQL:** Tradução de regras de negócio (cálculo de salário líquido) diretamente para a query.
 
 ## 📸 Evidências
 Os comprovantes de "Accepted" da plataforma Beecrowd estão armazenados na pasta `screenshots` deste repositório.
@@ -26,5 +45,6 @@ Os comprovantes de "Accepted" da plataforma Beecrowd estão armazenados na pasta
 * **Versionamento:** Git & GitHub
 
 ---
+
 **Autor:** Levi
-*Desenvolvido durante a trilha do Acelera ZG.*
+*Desenvolvido durante a trilha de Banco de Dados do Acelera ZG.*
